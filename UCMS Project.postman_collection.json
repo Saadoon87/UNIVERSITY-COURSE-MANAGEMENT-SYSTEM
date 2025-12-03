@@ -1,234 +1,984 @@
 {
-  "info": {
-    "_postman_id": "eed948a5-8e5a-4741-8bbd-a04ae6314bb4",
-    "name": "UCMS Project (Public Safe Version)",
-    "description": "Sanitized Postman collection for UCMS (safe for public use)",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "item": [
-    {
-      "name": "AUTH",
-      "item": [
-        {
-          "name": "Login",
-          "request": {
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/login/",
-              "host": ["{{base_url}}"],
-              "path": ["login", ""]
-            }
-          }
-        },
-        {
-          "name": "Refresh Token",
-          "request": {
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/refresh/",
-              "host": ["{{base_url}}"],
-              "path": ["refresh", ""]
-            }
-          }
-        },
-        {
-          "name": "Logout",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "key": "token",
-                "value": "{{access_token}}",
-                "type": "string"
-              }]
-            },
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/logout/",
-              "host": ["{{base_url}}"],
-              "path": ["logout", ""]
-            }
-          }
-        }
-      ]
-    },
-
-    {
-      "name": "ACCOUNT MODULE",
-      "item": [
-        {
-          "name": "Register User (Admin Only)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "key": "token",
-                "value": "{{admin_access_token}}",
-                "type": "string"
-              }]
-            },
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"email\": \"{{new_user_email}}\",\n  \"password\": \"{{new_user_password}}\",\n  \"confirm_password\": \"{{new_user_password}}\",\n  \"first_name\": \"{{first_name}}\",\n  \"last_name\": \"{{last_name}}\",\n  \"national_id\": \"00000000000000\",\n  \"role\": \"STUDENT\",\n  \"department\": 1,\n  \"academic_year\": 2\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/register/",
-              "host": ["{{base_url}}"],
-              "path": ["register", ""]
-            }
-          }
-        },
-
-        {
-          "name": "Profile",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "key": "token",
-                "value": "{{access_token}}"
-              }]
-            },
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/profile/",
-              "host": ["{{base_url}}"],
-              "path": ["profile", ""]
-            }
-          }
-        },
-
-        {
-          "name": "All Users (Admin)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "key": "token",
-                "value": "{{admin_access_token}}"
-              }]
-            },
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/allusers/",
-              "host": ["{{base_url}}"],
-              "path": ["allusers", ""]
-            }
-          }
-        }
-      ]
-    },
-
-    {
-      "name": "DEPARTMENT MODULE",
-      "item": [
-        {
-          "name": "Show All Departments",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "value": "{{access_token}}"
-              }]
-            },
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/api/academics/department/showall/",
-              "host": ["{{base_url}}"],
-              "path": ["api", "academics", "department", "showall", ""]
-            }
-          }
-        },
-
-        {
-          "name": "Create Department (Admin)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "value": "{{admin_access_token}}"
-              }]
-            },
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"{{department_name}}\",\n  \"code\": \"{{department_code}}\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/academics/department/create/",
-              "host": ["{{base_url}}"],
-              "path": ["api", "academics", "department", "create", ""]
-            }
-          }
-        }
-      ]
-    },
-
-    {
-      "name": "COURSE MODULE",
-      "item": [
-        {
-          "name": "Show All Courses",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "value": "{{access_token}}"
-              }]
-            },
-            "method": "GET",
-            "url": {
-              "raw": "{{base_url}}/api/academics/courses/",
-              "host": ["{{base_url}}"],
-              "path": ["api", "academics", "courses", ""]
-            }
-          }
-        },
-
-        {
-          "name": "Create Course (Admin)",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [{
-                "value": "{{admin_access_token}}"
-              }]
-            },
-            "method": "POST",
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"name\": \"{{course_name}}\",\n  \"code\": \"{{course_code}}\",\n  \"credit_hours\": {{credit_hours}},\n  \"capacity\": {{capacity}},\n  \"department\": 1,\n  \"professor\": 1,\n  \"day_of_week\": \"TUESDAY\",\n  \"start_time\": \"10:00:00\",\n  \"end_time\": \"12:00:00\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/api/academics/courses/create/",
-              "host": ["{{base_url}}"],
-              "path": ["api", "academics", "courses", "create", ""]
-            }
-          }
-        }
-      ]
-    }
-  ],
-
-  "variable": [
-    { "key": "base_url", "value": "http://127.0.0.1:8000" },
-    { "key": "email", "value": "" },
-    { "key": "password", "value": "" },
-    { "key": "access_token", "value": "" },
-    { "key": "refresh_token", "value": "" },
-    { "key": "admin_access_token", "value": "" }
-  ]
+	"info": {
+		"_postman_id": "eed948a5-8e5a-4741-8bbd-a04ae6314bb4",
+		"name": "UCMS Project",
+		"description": "Full Postman collection for UCMS (University Course Management System)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40842565"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"Professor2@uni.com\",\n    \"password\": \"professor2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2NDMxOTA2MSwiaWF0IjoxNzY0MjMyNjYxLCJqdGkiOiIwYjRmYjU5MmMzMjU0NGIxOWQ4YjdhMTRiOTYzNjkxZSIsInVzZXJfaWQiOiIxIn0.dBjVwWB1bAIIiohYUE-D9HwFSeO09rCTq-SjbpwpPK4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/refresh/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjMyODIzLCJpYXQiOjE3NjQyMzI1MjMsImp0aSI6ImJiN2RmMDdmZGYzMjQwNmQ4NTgwODk2MTU2NWJhMWZmIiwidXNlcl9pZCI6IjEifQ.5owHO-fT50IYoF2fZgkd-lDLYbYtzPcfO0Zfjliyk1U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc2NDMxODkyMywiaWF0IjoxNzY0MjMyNTIzLCJqdGkiOiIzNjQ2NTNjMzE3MDA0YzU1YjAwYjRjOTEyZjY4MmJhMSIsInVzZXJfaWQiOiIxIn0.2xj_LI42yh-Ab5GSnac0NQVt4jHtDi3Yju4RBunU2c8\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/logout/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ACCOUNT MODULE",
+			"item": [
+				{
+					"name": "Register User (Admin Only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQxNzQwLCJpYXQiOjE3NjQyNDE0NDAsImp0aSI6IjQ1MTQwMjAxODY1MzQ4ODY4MmFiYmE1MzBlZTlmNmI2IiwidXNlcl9pZCI6IjQifQ.m8-3vuxnSnvMBRjqPxqtioMnNTa1YSyJXj0p4Ca3RJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"Professor3@uni.com\",\n  \"password\": \"professor3\",\n  \"confirm_password\": \"professor3\",\n  \"first_name\": \"Kareem\",\n  \"last_name\": \"Mostafa\",\n  \"national_id\": \"12345678905678\",\n  \"role\": \"STUDENT\",\n  \"department\": 1,\n  \"academic_year\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQxNzQwLCJpYXQiOjE3NjQyNDE0NDAsImp0aSI6IjQ1MTQwMjAxODY1MzQ4ODY4MmFiYmE1MzBlZTlmNmI2IiwidXNlcl9pZCI6IjQifQ.m8-3vuxnSnvMBRjqPxqtioMnNTa1YSyJXj0p4Ca3RJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/profile/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Users (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQxNzQwLCJpYXQiOjE3NjQyNDE0NDAsImp0aSI6IjQ1MTQwMjAxODY1MzQ4ODY4MmFiYmE1MzBlZTlmNmI2IiwidXNlcl9pZCI6IjQifQ.m8-3vuxnSnvMBRjqPxqtioMnNTa1YSyJXj0p4Ca3RJg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/allusers/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"allusers",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DEPARTMENT MODULE",
+			"item": [
+				{
+					"name": "Show All Departments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQyMDM0LCJpYXQiOjE3NjQyNDE3MzQsImp0aSI6ImE3ZjUzZWQyNTc4ZTRlYjA5ZmUwZjY2ZTg4NWM0YTQ3IiwidXNlcl9pZCI6IjEifQ.PRueRBaAt1yaqZrJ1GazS8oNxkgz7JmgGxxXUaz_Mu0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/department/showall/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"department",
+								"showall",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Department (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQyMDM0LCJpYXQiOjE3NjQyNDE3MzQsImp0aSI6ImE3ZjUzZWQyNTc4ZTRlYjA5ZmUwZjY2ZTg4NWM0YTQ3IiwidXNlcl9pZCI6IjEifQ.PRueRBaAt1yaqZrJ1GazS8oNxkgz7JmgGxxXUaz_Mu0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"ART\",\n  \"code\": \"ART-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/department/create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"department",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COURSE MODULE",
+			"item": [
+				{
+					"name": "Show All Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ0NDcwLCJpYXQiOjE3NjQyNDQxNzAsImp0aSI6IjhmZTY3ZTFmY2U0NzQyNWI4ZDliYTcwNWU1ZDAxYzFiIiwidXNlcl9pZCI6IjEifQ.eV4JPD_SwBW5uNM4gZWnPKEGZa10mLsJUn6qFTStFH0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/courses/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Course (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ1MDMwLCJpYXQiOjE3NjQyNDQ3MzAsImp0aSI6IjIxMmFlMTZjMjA3NjQyMWNhZGYyNTU3Y2UwYWFiY2Y4IiwidXNlcl9pZCI6IjEifQ.JdnRK2aGXE1N9cTJ56YahhS2_blm_uswfw8_HgPlAl4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Python Advanced\",\n  \"code\": \"PY-301\",\n  \"credit_hours\": 5,\n  \"capacity\": 50,\n  \"department\": 1,\n  \"professor\": 3,\n  \"day_of_week\": \"TUESDAY\",\n  \"start_time\": \"10:00:00\",\n  \"end_time\": \"12:00:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/courses/create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"courses",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Course Update (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQzMTI0LCJpYXQiOjE3NjQyNDI4MjQsImp0aSI6Ijk2MzlkOTRlZDZjYTQxNjM5ODk0MDQzNDhkNWNiM2ZiIiwidXNlcl9pZCI6IjEifQ.VCOsXsPjKXWN0gI-YwdaGp0PLpIGZ5eThBQHI1vYb28",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"AI Basics\",\n  \"code\": \"AI-101\",\n  \"credit_hours\": 5,\n  \"capacity\": 50,\n  \"department\": 1,\n  \"professor\": 2,\n  \"day_of_week\": \"MONDAY\",\n  \"start_time\": \"10:00:00\",\n  \"end_time\": \"12:00:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/courses/1/update/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"courses",
+								"1",
+								"update",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Course Delete (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ0NDcwLCJpYXQiOjE3NjQyNDQxNzAsImp0aSI6IjhmZTY3ZTFmY2U0NzQyNWI4ZDliYTcwNWU1ZDAxYzFiIiwidXNlcl9pZCI6IjEifQ.eV4JPD_SwBW5uNM4gZWnPKEGZa10mLsJUn6qFTStFH0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/courses/2/delete/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"courses",
+								"2",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Course Detail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQyODM3LCJpYXQiOjE3NjQyNDI1MzcsImp0aSI6IjIwZGQzNzMwNDFjNzQ3YzU5NDlmZmY2ZTNiODU3YTE4IiwidXNlcl9pZCI6IjIifQ.s0WUm_7tGyBGWwnvgotiT7zwNG1q-uVZIAVCGpQy1PM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/courses/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"courses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ENROLLMENT",
+			"item": [
+				{
+					"name": "Enroll in Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ2Mjk1LCJpYXQiOjE3NjQyNDU5OTUsImp0aSI6IjRhMjEzNjAxNjkyNTRjY2JiMWE0MTU2MzM1NzljZjQ3IiwidXNlcl9pZCI6IjUifQ.7rkZIxyP03sFvfdAkttm6XdTOO2unqqhZs03_3HrVMM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/enroll/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"enroll",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Drop Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ2NDY5LCJpYXQiOjE3NjQyNDYxNjksImp0aSI6ImFjNzQ1NTBlMDg3ZDRhMTliYmI3NDMzZjY3ZWJlZDQzIiwidXNlcl9pZCI6IjQifQ._bhUHcklVZeTq070WTcqdzchQRbKL45V2Ut9M3oD_Sk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/drop/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"drop",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ2NzQzLCJpYXQiOjE3NjQyNDY0NDMsImp0aSI6IjcwNzUwZWFjOTdiNTQxMzBiMTlmNmIyMzE2Zjk1OTE2IiwidXNlcl9pZCI6IjUifQ.tUss8EfZTbnGYnu_k6Unu0UHDY-reKsxPF-PwtiT2h8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/student/courses/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"student",
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Courses Timetable",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ2ODAxLCJpYXQiOjE3NjQyNDY1MDEsImp0aSI6IjUxZTZkYzAzNzc3YzQ0M2RiNjJkNTg0ZjIxZGVjYmQ4IiwidXNlcl9pZCI6IjUifQ.gJkfKsAOtVZX2Sw2PRWE8iWs83J87ymheidnKGo6Zx4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/student/timetable/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"student",
+								"timetable",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PROFESSOR",
+			"item": [
+				{
+					"name": "My Courses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ3MTU4LCJpYXQiOjE3NjQyNDY4NTgsImp0aSI6ImE3OTFhY2Y4NDdjODQ3MzdhZDZjMGUwN2M2ZWZhNmY0IiwidXNlcl9pZCI6IjMifQ.p1xl73X7aunUWBP-C5EwEwXEEewjdXGUi3zBEezCYOY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/professor/courses/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"professor",
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "My Courses Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ3MTU4LCJpYXQiOjE3NjQyNDY4NTgsImp0aSI6ImE3OTFhY2Y4NDdjODQ3MzdhZDZjMGUwN2M2ZWZhNmY0IiwidXNlcl9pZCI6IjMifQ.p1xl73X7aunUWBP-C5EwEwXEEewjdXGUi3zBEezCYOY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/professor/courses/3/students/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"professor",
+								"courses",
+								"3",
+								"students",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MATERIALS",
+			"item": [
+				{
+					"name": "Upload Material (Professor)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ4MDQ2LCJpYXQiOjE3NjQyNDc3NDYsImp0aSI6IjhhZTc5MTE0MDVlZjQwYzJhZjUxMzVjMTM4OGYwNGU0IiwidXNlcl9pZCI6IjMifQ.VL9TiAJu8JxKbPL2N6NFFsw6ccui7CcUUHQXql6AP5Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "course",
+									"value": "3",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/user/OneDrive/Documents/My Home.pdf"
+								},
+								{
+									"key": "title",
+									"value": "Python Course 2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/materials/upload/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"materials",
+								"upload",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course Materials",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ4MDQ2LCJpYXQiOjE3NjQyNDc3NDYsImp0aSI6IjhhZTc5MTE0MDVlZjQwYzJhZjUxMzVjMTM4OGYwNGU0IiwidXNlcl9pZCI6IjMifQ.VL9TiAJu8JxKbPL2N6NFFsw6ccui7CcUUHQXql6AP5Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/materials/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"materials",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ANNOUNCEMENTS",
+			"item": [
+				{
+					"name": "Create Announcement",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ4MDQ2LCJpYXQiOjE3NjQyNDc3NDYsImp0aSI6IjhhZTc5MTE0MDVlZjQwYzJhZjUxMzVjMTM4OGYwNGU0IiwidXNlcl9pZCI6IjMifQ.VL9TiAJu8JxKbPL2N6NFFsw6ccui7CcUUHQXql6AP5Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"course\": 3,\n  \"title\": \"Quiz 1\",\n  \"content\": \"Quiz on TUESDAY.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/announcements/create/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"announcements",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Announcements for Course",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ4ODg5LCJpYXQiOjE3NjQyNDg1ODksImp0aSI6IjI2NTcyYmMzODA0ODRlZGZhZWZiMjAxOTUyMjM5ZWRkIiwidXNlcl9pZCI6IjMifQ.SNNfn7l2jDdY-W0jvRQBdYQ74rwniWwF0hqw4Q-8Uxc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/course announcements/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"course announcements",
+								"3",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Announcements By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY0MjQ4ODg5LCJpYXQiOjE3NjQyNDg1ODksImp0aSI6IjI2NTcyYmMzODA0ODRlZGZhZWZiMjAxOTUyMjM5ZWRkIiwidXNlcl9pZCI6IjMifQ.SNNfn7l2jDdY-W0jvRQBdYQ74rwniWwF0hqw4Q-8Uxc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/academics/announcement/2/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"academics",
+								"announcement",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		},
+		{
+			"key": "refresh_token",
+			"value": ""
+		},
+		{
+			"key": "course_id",
+			"value": "1"
+		}
+	]
 }
